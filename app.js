@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Ta configuration officielle
 const firebaseConfig = {
   apiKey: "AIzaSyCXAy63dWnzyj_uubs9FxK-tSBLR7Cef78",
   authDomain: "autopiecesguinee.firebaseapp.com",
@@ -15,21 +14,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// --- FONCTIONS POUR L'AFFICHAGE ---
 async function chargerPieces() {
     const container = document.getElementById('piecesContainer');
     try {
         const querySnapshot = await getDocs(collection(db, "annonces"));
         container.innerHTML = ""; 
-
-        if (querySnapshot.empty) {
-            container.innerHTML = `
-                <div style="text-align:center; padding: 50px 20px; opacity: 0.5;">
-                    <p>Aucune pièce n'est encore en vente.</p>
-                    <p style="font-size: 0.8rem;">Ajoutez-en une dans la console Firebase !</p>
-                </div>`;
-            return;
-        }
-
         querySnapshot.forEach((doc) => {
             const piece = doc.data();
             container.innerHTML += `
@@ -40,13 +30,35 @@ async function chargerPieces() {
                         <p>${piece.marque} • ${piece.etat}</p>
                         <div class="card-price">${Number(piece.prix).toLocaleString()} GNF</div>
                     </div>
-                </div>
-            `;
+                </div>`;
         });
-    } catch (e) {
-        console.error(e);
-        container.innerHTML = "<p>Erreur de chargement. Vérifiez vos règles Firestore.</p>";
-    }
+    } catch (e) { console.log(e); }
 }
+
+// --- GESTION DU FORMULAIRE ---
+const modal = document.getElementById('modalForm');
+document.getElementById('openBtn').onclick = () => modal.style.display = "block";
+document.getElementById('closeBtn').onclick = () => modal.style.display = "none";
+
+document.getElementById('addForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const nouvellePiece = {
+        nom: document.getElementById('nom').value,
+        marque: document.getElementById('marque').value,
+        prix: Number(document.getElementById('prix').value),
+        etat: document.getElementById('etat').value,
+        url_image: document.getElementById('url_image').value
+    };
+
+    try {
+        await addDoc(collection(db, "annonces"), nouvellePiece);
+        modal.style.display = "none";
+        document.getElementById('addForm').reset();
+        chargerPieces(); // Rafraîchir la liste
+        alert("Annonce publiée !");
+    } catch (error) {
+        alert("Erreur lors de l'ajout");
+    }
+};
 
 chargerPieces();
