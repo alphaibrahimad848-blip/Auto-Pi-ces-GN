@@ -1,32 +1,64 @@
-/* Styles pour le Formulaire Modal */
-.modal {
-    display: none; 
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(5px);
-    z-index: 1000;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCXAy63dWnzyj_uubs9FxK-tSBLR7Cef78",
+  authDomain: "autopiecesguinee.firebaseapp.com",
+  projectId: "autopiecesguinee",
+  storageBucket: "autopiecesguinee.firebasestorage.app",
+  messagingSenderId: "569278363345",
+  appId: "1:569278363345:web:132ed40ab3c2fcb7e437f0",
+  measurementId: "G-9CTBKLDRLG"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// --- FONCTIONS POUR L'AFFICHAGE ---
+async function chargerPieces() {
+    const container = document.getElementById('piecesContainer');
+    try {
+        const querySnapshot = await getDocs(collection(db, "annonces"));
+        container.innerHTML = ""; 
+        querySnapshot.forEach((doc) => {
+            const piece = doc.data();
+            container.innerHTML += `
+                <div class="card">
+                    <img src="${piece.url_image || 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=500'}" class="card-img">
+                    <div class="card-info">
+                        <h3>${piece.nom}</h3>
+                        <p>${piece.marque} • ${piece.etat}</p>
+                        <div class="card-price">${Number(piece.prix).toLocaleString()} GNF</div>
+                    </div>
+                </div>`;
+        });
+    } catch (e) { console.log(e); }
 }
 
-.modal-content {
-    background: #1e293b;
-    margin: 15% auto;
-    padding: 25px;
-    width: 85%;
-    border-radius: 30px;
-    border: 1px solid rgba(255,255,255,0.1);
-}
+// --- GESTION DU FORMULAIRE ---
+const modal = document.getElementById('modalForm');
+document.getElementById('openBtn').onclick = () => modal.style.display = "block";
+document.getElementById('closeBtn').onclick = () => modal.style.display = "none";
 
-form input, form select {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 12px;
-    border: none;
-    background: #0f172a;
-    color: white;
-}
+document.getElementById('addForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const nouvellePiece = {
+        nom: document.getElementById('nom').value,
+        marque: document.getElementById('marque').value,
+        prix: Number(document.getElementById('prix').value),
+        etat: document.getElementById('etat').value,
+        url_image: document.getElementById('url_image').value
+    };
 
-.form-btns { display: flex; gap: 10px; margin-top: 20px; }
-.submit-btn { background: var(--primary); color: white; border: none; flex: 2; padding: 15px; border-radius: 12px; font-weight: bold; }
-#closeBtn { background: #334155; color: white; border: none; flex: 1; padding: 15px; border-radius: 12px; }
+    try {
+        await addDoc(collection(db, "annonces"), nouvellePiece);
+        modal.style.display = "none";
+        document.getElementById('addForm').reset();
+        chargerPieces(); // Rafraîchir la liste
+        alert("Annonce publiée !");
+    } catch (error) {
+        alert("Erreur lors de l'ajout");
+    }
+};
+
+chargerPieces();
