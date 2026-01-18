@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoPièces GN | 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <div class="logo">AutoPièces<span>GN</span></div>
+            <div class="user-badge">🇬🇳</div>
+        </header>
+
+        <section class="hero">
+            <h1>Trouvez la pièce idéale</h1>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher (ex: Toyota, Frein...)">
+            </div>
+        </section>
+
+        <div id="piecesContainer" class="grid-container">
+            <div class="loading-spinner">Connexion à la base de données...</div>
+        </div>
+        
+        <div class="fab">
+            <span>+</span>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
