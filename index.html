@@ -23,10 +23,30 @@
         </section>
 
         <div id="piecesContainer" class="grid-container">
-            <div class="loading-spinner">Connexion à la base de données...</div>
+            <div class="loading-spinner">Chargement des pièces...</div>
         </div>
         
-        <div class="fab">
+        <div id="modalForm" class="modal">
+            <div class="modal-content">
+                <h2>Vendre une pièce</h2>
+                <form id="addForm">
+                    <input type="text" id="nom" placeholder="Nom de la pièce" required>
+                    <input type="text" id="marque" placeholder="Marque (ex: Toyota)" required>
+                    <input type="number" id="prix" placeholder="Prix en GNF" required>
+                    <select id="etat">
+                        <option value="Occasion">Occasion</option>
+                        <option value="Neuf">Neuf</option>
+                    </select>
+                    <input type="url" id="url_image" placeholder="Lien de la photo (URL)">
+                    <div class="form-btns">
+                        <button type="button" id="closeBtn">Annuler</button>
+                        <button type="submit" class="submit-btn">Publier l'annonce</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="fab" id="openBtn">
             <span>+</span>
         </div>
     </div>
