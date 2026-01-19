@@ -6,7 +6,6 @@
     <title>AutoPièces GN</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
@@ -15,18 +14,22 @@
 
     <header class="main-header">
         <div class="logo">AutoPièces<span>GN</span></div>
-        <button id="authBtn" onclick="ouvrirModal('authModal')" class="btn-connexion">Mon Compte</button>
+        <div class="header-right">
+            <div class="msg-icon-container" onclick="ouvrirModal('listChatsModal')">
+                <span class="icon">📩</span>
+                <div id="msgBadge" class="badge"></div>
+            </div>
+            <button id="authBtn" onclick="ouvrirModal('authModal')" class="btn-connexion">Compte</button>
+        </div>
     </header>
 
     <div class="app-container">
         <div class="category-tabs">
-            <div class="tab-item" onclick="filtrerCat('Toyota')">🚗 Toyota</div>
-            <div class="tab-item" onclick="filtrerCat('Camions')">🚛 Camions</div>
-            <div class="tab-item" onclick="filtrerCat('Moteurs')">🔧 Moteurs</div>
-            <div class="tab-item" onclick="filtrerCat('Accessoires')">🛠 Accessoires</div>
+            <div class="tab-item">🚗 Toyota</div>
+            <div class="tab-item">🚛 Camions</div>
+            <div class="tab-item">🔧 Moteurs</div>
+            <div class="tab-item">🛠 Accessoires</div>
         </div>
-
-        <h2 class="section-title">Annonces récentes</h2>
         <div id="piecesContainer" class="grid-container"></div>
     </div>
 
@@ -36,48 +39,49 @@
             <input type="email" id="email" placeholder="Email" class="modern-input">
             <input type="password" id="password" placeholder="Mot de passe" class="modern-input">
             <button id="mainAuthBtn" class="btn-submit">Valider</button>
-            <p id="authStatus" style="font-size: 12px; margin-top: 10px; color: #94a3b8;"></p>
-            <p style="margin-top:15px; font-size:13px">
-                <span id="toggleText">Pas de compte ?</span> 
-                <span class="link-blue" onclick="basculerAuth()">S'inscrire</span>
-            </p>
+            <p class="auth-toggle">Pas de compte ? <span onclick="basculerAuth()">S'inscrire</span></p>
+            <p class="link-close" onclick="fermerModals()">Fermer</p>
+        </div>
+    </div>
+
+    <div id="listChatsModal" class="modal">
+        <div class="modal-card">
+            <h2>Mes Messages</h2>
+            <div id="listChatsContainer" class="chats-list"></div>
             <p class="link-close" onclick="fermerModals()">Fermer</p>
         </div>
     </div>
 
     <div id="chatModal" class="modal">
-        <div class="modal-card chat-box">
-            <h2 id="chatTitle">Discussion</h2>
+        <div class="modal-card chat-full">
+            <h3 id="chatTitle">Discussion</h3>
             <div id="messagesContainer"></div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="Votre message..." class="modern-input">
-                <button id="btnSend" class="btn-submit">Envoyer</button>
+            <div class="chat-input-bar">
+                <input type="text" id="chatInput" placeholder="Message...">
+                <button id="btnSend">🚀</button>
             </div>
-            <p class="link-close" onclick="fermerModals()">Quitter le chat</p>
+            <p class="link-close" onclick="fermerModals()">Retour</p>
         </div>
     </div>
 
     <div id="modalForm" class="modal">
         <div class="modal-card">
-            <h2>Vendre une pièce</h2>
+            <h2>Nouvelle Annonce</h2>
             <input type="text" id="nomPiece" placeholder="Nom de la pièce" class="modern-input">
             <input type="number" id="prixPiece" placeholder="Prix (GNF)" class="modern-input">
             <select id="catPiece" class="modern-input">
                 <option value="Toyota">Toyota</option>
                 <option value="Camions">Camions</option>
-                <option value="Moteurs">Moteurs</option>
                 <option value="Accessoires">Accessoires</option>
             </select>
-            <div class="photo-zone">
-                <label for="imgInput" class="photo-btn">📸 Ajouter une Photo</label>
-                <input type="file" id="imgInput" accept="image/*" capture="environment" style="display:none">
-                <div id="preview"></div>
-            </div>
-            <button id="btnPublier" class="btn-submit">Publier l'annonce</button>
+            <label class="photo-btn">📸 Photo <input type="file" id="imgInput" hidden></label>
+            <div id="preview"></div>
+            <button id="btnPublier" class="btn-submit">Publier</button>
             <p class="link-close" onclick="fermerModals()">Annuler</p>
         </div>
     </div>
 
+    <div id="toast-container"></div>
     <div class="fab" onclick="ouvrirModal('modalForm')">+</div>
 
     <script src="app.js"></script>
