@@ -19,65 +19,35 @@
                 <span class="icon">📩</span>
                 <div id="msgBadge" class="badge"></div>
             </div>
-            <button id="authBtn" onclick="ouvrirModal('authModal')" class="btn-connexion">Compte</button>
+            <button onclick="ouvrirModal('authModal')" class="btn-compte">Compte</button>
         </div>
     </header>
 
-    <div class="app-container">
-        <div class="category-tabs">
-            <div class="tab-item">🚗 Toyota</div>
-            <div class="tab-item">🚛 Camions</div>
-            <div class="tab-item">🔧 Moteurs</div>
-            <div class="tab-item">🛠 Accessoires</div>
-        </div>
-        <div id="piecesContainer" class="grid-container"></div>
+    <div class="category-scroll">
+        <div class="tab-item active">🚗 Toyota</div>
+        <div class="tab-item">🚛 Camions</div>
+        <div class="tab-item">🔧 Moteurs</div>
+        <div class="tab-item">🛠 Accessoires</div>
     </div>
 
-    <div id="authModal" class="modal">
-        <div class="modal-card">
-            <h2 id="modalTitle">Connexion</h2>
-            <input type="email" id="email" placeholder="Email" class="modern-input">
-            <input type="password" id="password" placeholder="Mot de passe" class="modern-input">
-            <button id="mainAuthBtn" class="btn-submit">Valider</button>
-            <p class="auth-toggle">Pas de compte ? <span onclick="basculerAuth()">S'inscrire</span></p>
-            <p class="link-close" onclick="fermerModals()">Fermer</p>
-        </div>
-    </div>
+    <div id="piecesContainer" class="main-grid"></div>
 
-    <div id="listChatsModal" class="modal">
-        <div class="modal-card">
-            <h2>Mes Messages</h2>
-            <div id="listChatsContainer" class="chats-list"></div>
-            <p class="link-close" onclick="fermerModals()">Fermer</p>
-        </div>
-    </div>
-
-    <div id="chatModal" class="modal">
-        <div class="modal-card chat-full">
-            <h3 id="chatTitle">Discussion</h3>
-            <div id="messagesContainer"></div>
-            <div class="chat-input-bar">
-                <input type="text" id="chatInput" placeholder="Message...">
-                <button id="btnSend">🚀</button>
-            </div>
-            <p class="link-close" onclick="fermerModals()">Retour</p>
-        </div>
-    </div>
-
+    <div id="authModal" class="modal"><div class="modal-card">...</div></div>
+    <div id="chatModal" class="modal"><div class="modal-card">...</div></div>
+    <div id="listChatsModal" class="modal"><div class="modal-card">...</div></div>
+    
     <div id="modalForm" class="modal">
         <div class="modal-card">
-            <h2>Nouvelle Annonce</h2>
-            <input type="text" id="nomPiece" placeholder="Nom de la pièce" class="modern-input">
+            <h2>Vendre une pièce</h2>
+            <input type="text" id="nomPiece" placeholder="Nom" class="modern-input">
             <input type="number" id="prixPiece" placeholder="Prix (GNF)" class="modern-input">
             <select id="catPiece" class="modern-input">
-                <option value="Toyota">Toyota</option>
-                <option value="Camions">Camions</option>
-                <option value="Accessoires">Accessoires</option>
+                <option>Toyota</option><option>Camions</option><option>Accessoires</option>
             </select>
-            <label class="photo-btn">📸 Photo <input type="file" id="imgInput" hidden></label>
+            <input type="file" id="imgInput" hidden>
+            <button onclick="document.getElementById('imgInput').click()" class="photo-btn">📸 Ajouter Photo</button>
             <div id="preview"></div>
             <button id="btnPublier" class="btn-submit">Publier</button>
-            <p class="link-close" onclick="fermerModals()">Annuler</p>
         </div>
     </div>
 
