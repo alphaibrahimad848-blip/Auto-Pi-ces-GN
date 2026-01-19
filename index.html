@@ -17,10 +17,13 @@
         </header>
 
         <section class="hero">
-            <input type="text" id="searchInput" placeholder="Rechercher une pièce...">
+            <h1>Trouvez la pièce idéale</h1>
+            <input type="text" id="searchInput" placeholder="Rechercher une pièce (ex: Toyota)...">
         </section>
 
-        <div id="piecesContainer" class="grid-container"></div>
+        <div id="piecesContainer" class="grid-container">
+            <div class="loading-spinner">Chargement des pièces...</div>
+        </div>
 
         <div id="authModal" class="modal">
             <div class="modal-content">
@@ -28,14 +31,14 @@
                 <input type="email" id="authEmail" placeholder="Email">
                 <input type="password" id="authPwd" placeholder="Mot de passe">
                 <button id="authSubmit" class="submit-btn">Valider</button>
-                <p id="toggleAuth" onclick="basculerAuth()">Déjà un compte ? Connectez-vous</p>
+                <p id="toggleAuth" onclick="basculerAuth()" style="cursor:pointer; margin-top:15px; font-size:14px; text-decoration:underline;">Déjà un compte ? Connectez-vous</p>
                 <button class="close-txt" onclick="fermerModals()">Fermer</button>
             </div>
         </div>
 
         <div id="chatModal" class="modal">
             <div class="modal-content chat-container">
-                <h2 id="chatHeader">Chat avec le vendeur</h2>
+                <h2 id="chatHeader">Chat</h2>
                 <div id="messagesList"></div>
                 <div class="chat-input">
                     <input type="text" id="msgInput" placeholder="Votre message...">
@@ -49,10 +52,13 @@
             <div class="modal-content">
                 <h2>Vendre une pièce</h2>
                 <form id="addForm">
-                    <input type="text" id="nom" placeholder="Nom de la pièce" required>
-                    <input type="text" id="marque" placeholder="Marque" required>
+                    <input type="text" id="nom" placeholder="Nom de la pièce (ex: Alternateur)" required>
+                    <input type="text" id="marque" placeholder="Marque (ex: Mercedes)" required>
                     <input type="number" id="prix" placeholder="Prix en GNF" required>
-                    <input type="url" id="url_image" placeholder="Lien photo (Optionnel)">
+                    
+                    <label style="color: #94a3b8; font-size: 12px; display: block; margin-top: 10px; text-align: left;">Prendre une photo de la pièce :</label>
+                    <input type="file" id="imageFile" accept="image/*" capture="environment" style="background: #0f172a; color: white; border: 1px dashed #2563eb;">
+                    
                     <button type="submit" class="submit-btn">Publier l'annonce</button>
                 </form>
                 <button class="close-txt" onclick="fermerModals()">Annuler</button>
