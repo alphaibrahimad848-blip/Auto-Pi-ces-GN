@@ -3,44 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AutoPièces GN</title>
+    <title>AutoPièces GN | Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <header>
-        <div class="logo">AutoPièces <span>GN</span></div>
+    <header class="main-header">
+        <div class="logo">AutoPièces<span>GN</span></div>
+        <div id="authStatus">
+            <button onclick="ouvrirAuth()" class="small-btn">Connexion</button>
+        </div>
     </header>
 
     <div class="app-container">
-        <div class="search-section">
-            <input type="text" id="searchInput" placeholder="Rechercher une pièce...">
+        
+        <section class="dynamic-welcome">
+            <div class="welcome-card">
+                <h1>Trouvez la pièce idéale</h1>
+                <p>Marché n°1 de pièces détachées en Guinée</p>
+                <div class="stats-mini">
+                    <span>⚡ Rapide</span>
+                    <span>🛡️ Sécurisé</span>
+                    <span>📍 Local</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="search-container">
+            <input type="text" id="searchInput" placeholder="Rechercher (ex: Moteur, Toyota, Freins)...">
+        </section>
+
+        <div class="quick-categories">
+            <div class="cat-chip">🚗 Toyota</div>
+            <div class="cat-chip">🚛 Camions</div>
+            <div class="cat-chip">🔧 Moteurs</div>
+            <div class="cat-chip">🔋 Batteries</div>
         </div>
 
-        <div class="grid-container" id="partsGrid">
+        <h2 class="section-title">Annonces récentes</h2>
+        <div id="piecesContainer" class="grid-container">
             <div class="card">
-                <div class="card-img-placeholder">📸 Pièce</div>
+                <div class="card-badge">Nouveau</div>
+                <img src="https://via.placeholder.com/300x200" class="card-img" alt="Pièce">
                 <div class="card-info">
                     <h3>Alternateur Mercedes</h3>
                     <p class="card-price">850 000 GNF</p>
-                    <button class="btn-chat">Discuter avec le vendeur</button>
+                    <button class="submit-btn">Discuter avec le vendeur</button>
                 </div>
             </div>
+        </div>
+
+        <div id="authModal" class="modal">
+            <div class="modal-content">
+                <h2 id="authTitle">Créer un compte</h2>
+                <input type="email" id="authEmail" placeholder="Email">
+                <input type="password" id="authPwd" placeholder="Mot de passe">
+                <button id="authSubmit" class="submit-btn">Valider</button>
+                <p id="toggleAuth" onclick="basculerAuth()" class="close-txt">Déjà un compte ? Connectez-vous</p>
+                <button class="close-txt" onclick="fermerModals()">Fermer</button>
             </div>
-    </div>
-
-    <div class="fab" onclick="document.getElementById('addModal').style.display='block'">+</div>
-
-    <div id="addModal" class="modal">
-        <div class="modal-content">
-            <h3>Vendre une pièce</h3>
-            <input type="text" placeholder="Nom de la pièce">
-            <input type="number" placeholder="Prix (GNF)">
-            <button class="submit-btn">Valider l'annonce</button>
-            <p class="close-text" onclick="document.getElementById('addModal').style.display='none'">Fermer</p>
         </div>
     </div>
 
+    <div class="fab" id="openBtn">+</div>
+
+    <script type="module" src="app.js"></script>
 </body>
 </html>
