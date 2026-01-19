@@ -3,98 +3,192 @@
     --dark: #0f172a;
     --card: #1e293b;
     --danger: #ef4444;
+    --text-gray: #94a3b8;
 }
 
-body { background: var(--dark); color: white; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-/* Header descendu pour l'écran mobile */
+body { 
+    background: var(--dark); 
+    color: white; 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    margin: 0; 
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Header corrigé pour AppsGeyser */
 .main-header {
     background: var(--primary);
-    padding: 55px 20px 15px;
+    padding: 55px 20px 15px; /* Évite l'encoche du téléphone */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-/* CHAMPS DE CONNEXION MODERNES */
-.modern-input-group input {
-    width: 100%;
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid #334155;
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 15px;
-    color: white;
-    font-size: 15px;
+.logo { font-size: 20px; font-weight: 800; }
+.logo span { color: #cbd5e1; }
+
+.btn-connexion { 
+    background: rgba(255,255,255,0.2); 
+    border: 1px solid white; 
+    color: white; 
+    padding: 6px 15px; 
+    border-radius: 10px; 
+    font-size: 12px;
+    font-weight: 600;
 }
 
-/* BOUTON VENDU ÉLÉGANT (Ne déborde plus) */
-.btn-vendu-modern {
-    background: transparent;
-    color: var(--danger);
-    border: 1px solid var(--danger);
-    width: 100%;
-    padding: 8px 5px;
-    border-radius: 10px;
+.app-container { padding-bottom: 80px; }
+
+/* Status Bar */
+.status-bar { padding: 15px; display: flex; gap: 8px; overflow-x: auto; }
+.status-bar span { 
+    background: rgba(37, 99, 235, 0.15); 
+    color: #60a5fa; 
+    padding: 5px 12px; 
+    border-radius: 20px; 
     font-size: 11px;
     font-weight: 700;
-    margin-top: 8px;
-    text-transform: uppercase;
+}
+
+/* ONGLETS HORIZONTAUX DÉFILANTS */
+.category-tabs {
+    display: flex;
+    gap: 12px;
+    padding: 0 15px 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.category-tabs::-webkit-scrollbar { display: none; }
+
+.tab-item {
+    background: var(--card);
+    padding: 12px 20px;
+    border-radius: 16px;
+    border: 1px solid #334155;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 /* GRILLE ET CARTES */
-.grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+.section-title { padding: 0 15px; font-size: 20px; font-weight: 800; margin-bottom: 15px; }
+.grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; }
 
 .card { 
     background: var(--card); 
     border-radius: 20px; 
     overflow: hidden; 
+    border: 1px solid rgba(255,255,255,0.05);
     display: flex;
     flex-direction: column;
 }
 
-.card-img { width: 100%; height: 130px; object-fit: cover; background: #2d3748; }
+.card-img { width: 100%; height: 115px; object-fit: cover; background: #2d3748; }
+.card-content { padding: 12px; text-align: center; }
+.card-content h3 { font-size: 13px; margin: 0 0 5px; height: 32px; overflow: hidden; }
+.brand { color: var(--text-gray); font-size: 11px; margin-bottom: 5px; }
+.price { color: var(--primary); font-weight: 800; font-size: 14px; margin-bottom: 10px; }
 
-.card-info { padding: 12px; text-align: center; }
-.card-info h3 { font-size: 13px; margin: 5px 0; font-weight: 800; }
-.brand { color: #94a3b8; font-size: 12px; margin-bottom: 5px; }
-.card-price { color: var(--primary); font-weight: 800; font-size: 14px; margin-bottom: 10px; }
-
-/* BOUTONS PRIMAIRES */
-.btn-primary {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
-    width: 100%;
-    font-weight: 700;
-    font-size: 13px;
+/* BOUTONS DES CARTES (Ne débordent plus) */
+.btn-chat { 
+    background: var(--primary); 
+    color: white; 
+    border: none; 
+    width: 100%; 
+    padding: 10px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    font-size: 11px; 
 }
 
-/* MODAL MODERNISÉE */
-.modal-content {
-    background: var(--card);
-    margin: 25% auto;
-    padding: 30px 20px;
-    width: 85%;
-    border-radius: 28px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+.btn-vendu { 
+    background: transparent; 
+    color: var(--danger); 
+    border: 1px solid var(--danger); 
+    width: 100%; 
+    padding: 7px; 
+    border-radius: 10px; 
+    font-size: 9px; 
+    font-weight: 800; 
+    margin-top: 8px; 
 }
 
-.fab {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: var(--primary);
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    z-index: 1000;
+/* MODALS ET CHAMPS MODERNES */
+.modal { 
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.9); 
+    z-index: 2000; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.modal-card { 
+    background: var(--card); 
+    padding: 30px 20px; 
+    width: 88%; 
+    border-radius: 28px; 
+    text-align: center; 
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.modern-input { 
+    width: 100%; 
+    background: #0f172a; 
+    border: 1px solid #334155; 
+    border-radius: 14px; 
+    padding: 16px; 
+    margin-bottom: 12px; 
+    color: white; 
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.btn-submit { 
+    background: var(--primary); 
+    color: white; 
+    border: none; 
+    width: 100%; 
+    padding: 16px; 
+    border-radius: 14px; 
+    font-weight: 700; 
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+/* ZONE PHOTO MODERNE */
+.photo-upload-zone {
+    margin: 15px 0;
+    padding: 15px;
+    border: 2px dashed #334155;
+    border-radius: 15px;
+    background: rgba(15, 23, 42, 0.5);
+}
+.photo-label { color: var(--primary); font-weight: 700; font-size: 13px; cursor: pointer; }
+.hidden-input { display: none; }
+.photo-hint { font-size: 10px; color: var(--text-gray); margin-top: 5px; }
+
+.link-close { color: var(--text-gray); margin-top: 15px; text-decoration: underline; font-size: 14px; cursor: pointer; }
+
+/* BOUTON FLOTTANT + */
+.fab { 
+    position: fixed; 
+    bottom: 25px; 
+    right: 25px; 
+    background: var(--primary); 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 30px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 30px; 
+    z-index: 999; 
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4); 
 }
