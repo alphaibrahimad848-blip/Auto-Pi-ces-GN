@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoPièces GN | 2026</title>
+    <title>AutoPièces GN | Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
@@ -11,43 +11,55 @@
     <div class="app-container">
         <header>
             <div class="logo">AutoPièces<span>GN</span></div>
-            <div class="user-badge">🇬🇳</div>
+            <div id="authStatus">
+                <button onclick="ouvrirAuth()" class="small-btn">Connexion</button>
+            </div>
         </header>
 
         <section class="hero">
-            <h1>Trouvez la pièce idéale</h1>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Rechercher (ex: Toyota, Frein...)">
-            </div>
+            <input type="text" id="searchInput" placeholder="Rechercher une pièce...">
         </section>
 
-        <div id="piecesContainer" class="grid-container">
-            <div class="loading-spinner">Chargement des pièces...</div>
+        <div id="piecesContainer" class="grid-container"></div>
+
+        <div id="authModal" class="modal">
+            <div class="modal-content">
+                <h2 id="authTitle">Créer un compte</h2>
+                <input type="email" id="authEmail" placeholder="Email">
+                <input type="password" id="authPwd" placeholder="Mot de passe">
+                <button id="authSubmit" class="submit-btn">Valider</button>
+                <p id="toggleAuth" onclick="basculerAuth()">Déjà un compte ? Connectez-vous</p>
+                <button class="close-txt" onclick="fermerModals()">Fermer</button>
+            </div>
         </div>
-        
+
+        <div id="chatModal" class="modal">
+            <div class="modal-content chat-container">
+                <h2 id="chatHeader">Chat avec le vendeur</h2>
+                <div id="messagesList"></div>
+                <div class="chat-input">
+                    <input type="text" id="msgInput" placeholder="Votre message...">
+                    <button id="sendMsg">Ok</button>
+                </div>
+                <button class="close-txt" onclick="fermerModals()">Fermer</button>
+            </div>
+        </div>
+
         <div id="modalForm" class="modal">
             <div class="modal-content">
                 <h2>Vendre une pièce</h2>
                 <form id="addForm">
                     <input type="text" id="nom" placeholder="Nom de la pièce" required>
-                    <input type="text" id="marque" placeholder="Marque (ex: Toyota)" required>
+                    <input type="text" id="marque" placeholder="Marque" required>
                     <input type="number" id="prix" placeholder="Prix en GNF" required>
-                    <select id="etat">
-                        <option value="Occasion">Occasion</option>
-                        <option value="Neuf">Neuf</option>
-                    </select>
-                    <input type="url" id="url_image" placeholder="Lien de la photo (URL)">
-                    <div class="form-btns">
-                        <button type="button" id="closeBtn">Annuler</button>
-                        <button type="submit" class="submit-btn">Publier</button>
-                    </div>
+                    <input type="url" id="url_image" placeholder="Lien photo (Optionnel)">
+                    <button type="submit" class="submit-btn">Publier l'annonce</button>
                 </form>
+                <button class="close-txt" onclick="fermerModals()">Annuler</button>
             </div>
         </div>
 
-        <div class="fab" id="openBtn">
-            <span>+</span>
-        </div>
+        <div class="fab" id="openBtn">+</div>
     </div>
     <script type="module" src="app.js"></script>
 </body>
