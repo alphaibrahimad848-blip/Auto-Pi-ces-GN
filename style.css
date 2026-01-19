@@ -1,62 +1,133 @@
+/* Palette de base */
 :root {
     --primary: #2563eb;
     --dark: #0f172a;
     --card: #1e293b;
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
 body {
-    background: var(--dark);
+    background-color: var(--dark);
     color: white;
     font-family: 'Plus Jakarta Sans', sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center; /* Centre horizontalement */
+    overflow-x: hidden; /* Empêche le balancement gauche-droite */
 }
 
-.app-container {
-    width: 100%;
-    max-width: 450px; /* Taille téléphone */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centre les éléments enfants */
-}
-
-/* Centrage du Logo */
+/* LE BANDEAU BLEU (HEADER) */
 header {
+    background-color: var(--primary); /* Fond bleu */
     width: 100%;
-    text-align: center;
-    padding: 20px 0;
+    padding-top: 50px; /* DESCEND LE TITRE (Ajuste ici si besoin) */
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .logo { 
-    font-size: 24px; 
-    font-weight: 800; 
-    display: block;
-    margin: 0 auto;
+    font-size: 22px; 
+    font-weight: 800;
+    color: white; /* Titre en blanc sur le bleu */
 }
 
-.logo span { color: var(--primary); }
+.logo span { color: #cbd5e1; } /* Couleur différente pour le GN */
 
-/* Centrage des formulaires et Modals */
+/* CONTENEUR PRINCIPAL */
+.app-container {
+    width: 100%;
+    max-width: 500px; /* Taille mobile standard */
+    margin: 0 auto;
+    padding: 15px;
+}
+
+/* SECTION RECHERCHE */
+.hero {
+    margin: 20px 0;
+}
+
+.hero h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    background: var(--card);
+    border: 1px solid #334155;
+    color: white;
+    font-size: 16px;
+}
+
+/* GRILLE DE PIÈCES (S'ADAPTE À L'ÉCRAN) */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 colonne par défaut */
+    gap: 15px;
+    width: 100%;
+}
+
+@media (min-width: 350px) {
+    .grid-container {
+        grid-template-columns: 1fr 1fr; /* 2 colonnes sur la plupart des téléphones */
+    }
+}
+
+/* CARTES PRODUITS */
+.card {
+    background: var(--card);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.card-info { padding: 12px; }
+
+/* MODALS (FORMULAIRES) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+
 .modal-content {
     background: var(--card);
-    padding: 25px;
-    border-radius: 20px;
+    margin: 15% auto;
+    padding: 20px;
     width: 90%;
-    margin: 0 auto;
-    text-align: center; /* Centre le texte à l'intérieur */
+    border-radius: 20px;
 }
 
-input {
+input[type="text"], 
+input[type="number"], 
+input[type="email"], 
+input[type="password"] {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
-    border-radius: 10px;
-    border: none;
+    border-radius: 8px;
+    border: 1px solid #334155;
     background: #0f172a;
     color: white;
 }
@@ -66,24 +137,27 @@ input {
     background: var(--primary);
     color: white;
     padding: 15px;
-    border-radius: 12px;
-    font-weight: 700;
     border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+/* BOUTON FLOTTANT + */
+.fab {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: var(--primary);
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
     cursor: pointer;
-}
-
-/* Grille centrée pour les annonces */
-.grid-container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.card {
-    background: var(--card);
-    border-radius: 15px;
-    padding: 10px;
-    text-align: left;
+    z-index: 999;
 }
