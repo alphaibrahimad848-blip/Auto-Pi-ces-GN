@@ -11,7 +11,7 @@
 
     <header class="main-header">
         <div class="logo">AutoPièces<span>GN</span></div>
-        <button onclick="ouvrirModal('authModal')" class="btn-connexion">Connexion</button>
+        <button onclick="ouvrirModal('authModal')" class="btn-connexion" id="authBtn">Connexion</button>
     </header>
 
     <div class="app-container">
@@ -23,28 +23,17 @@
             <div class="tab-item" onclick="montrerToast('Toyota')">🚗 Toyota</div>
             <div class="tab-item" onclick="montrerToast('Camions')">🚛 Camions</div>
             <div class="tab-item" onclick="montrerToast('Moteurs')">🔧 Moteurs</div>
-            <div class="tab-item" onclick="montrerToast('Accessoires')">💎 Accessoires</div>
         </div>
 
         <h2 class="section-title">Annonces récentes</h2>
 
-        <div class="grid-container">
+        <div id="piecesContainer" class="grid-container">
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1597811159424-64478f773663?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Alternateur">
+                <img src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?q=80&w=500&auto=format&fit=crop" class="card-img" alt="Alternateur">
                 <div class="card-content">
                     <h3>Alternateur Mercedes</h3>
                     <p class="brand">Mercedes</p>
                     <p class="price">850 000 GNF</p>
-                    <button class="btn-chat">💬 Discuter</button>
-                    <button class="btn-vendu">MARQUER COMME VENDU</button>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Pompe">
-                <div class="card-content">
-                    <h3>Pompe à injection</h3>
-                    <p class="brand">Bmw</p>
-                    <p class="price">120 000 GNF</p>
                     <button class="btn-chat">💬 Discuter</button>
                     <button class="btn-vendu">MARQUER COMME VENDU</button>
                 </div>
@@ -54,11 +43,16 @@
 
     <div id="authModal" class="modal">
         <div class="modal-card">
-            <h2>Connexion</h2>
-            <input type="email" placeholder="Email" class="modern-input">
-            <input type="password" placeholder="Mot de passe" class="modern-input">
-            <button class="btn-submit">Valider</button>
-            <p class="auth-options">Pas encore de compte ? <span class="blue-link">S'inscrire</span></p>
+            <h2 id="modalTitle">Connexion</h2>
+            <div class="auth-fields">
+                <input type="email" id="email" placeholder="Email" class="modern-input">
+                <input type="password" id="password" placeholder="Mot de passe" class="modern-input">
+            </div>
+            <button id="mainAuthBtn" class="btn-submit">Se connecter</button>
+            
+            <p class="auth-footer" id="toggleAuthText">
+                Pas de compte ? <span class="blue-link" onclick="basculerInscription()">S'inscrire</span>
+            </p>
             <p class="link-close" onclick="fermerModals()">Fermer</p>
         </div>
     </div>
@@ -66,41 +60,57 @@
     <div id="modalForm" class="modal">
         <div class="modal-card">
             <h2>Vendre une pièce</h2>
-            <input type="text" placeholder="Nom de la pièce" class="modern-input">
-            <input type="number" placeholder="Prix (GNF)" class="modern-input">
+            <input type="text" id="nomPiece" placeholder="Nom de la pièce" class="modern-input">
+            <input type="number" id="prixPiece" placeholder="Prix (GNF)" class="modern-input">
             
-            <select class="modern-input">
+            <select id="catPiece" class="modern-input">
                 <option value="" disabled selected>Choisir la catégorie</option>
-                <option value="voitures">🚗 Voitures / Toyota</option>
-                <option value="camions">🚛 Camions</option>
-                <option value="moteurs">🔧 Moteurs</option>
-                <option value="accessoires">💎 Accessoires</option>
+                <option value="Voitures">🚗 Voitures / Toyota</option>
+                <option value="Camions">🚛 Camions</option>
+                <option value="Moteurs">🔧 Moteurs</option>
             </select>
 
-            <div class="photo-upload-zone">
-                <label for="photoPiece" class="photo-label">📸 Prendre une photo / Galerie</label>
-                <input type="file" id="photoPiece" accept="image/*" capture="environment" class="hidden-input">
+            <div class="photo-zone">
+                <label for="imgInput" class="photo-label">📸 Ajouter une photo</label>
+                <input type="file" id="imgInput" accept="image/*" capture="environment" class="hidden-input">
+                <p id="fileName" style="font-size: 10px; color: #94a3b8; margin-top: 5px;"></p>
             </div>
 
-            <button class="btn-submit">Publier l'annonce</button>
+            <button id="btnPublier" class="btn-submit">Publier l'annonce</button>
             <p class="link-close" onclick="fermerModals()">Annuler</p>
         </div>
     </div>
 
-    <div id="toast" class="toast-msg">Non disponible pour l'instant</div>
+    <div id="toast" class="toast-msg"></div>
 
     <div class="fab" onclick="ouvrirModal('modalForm')">+</div>
 
     <script>
+        let isSignUp = false;
+
+        function basculerInscription() {
+            isSignUp = !isSignUp;
+            document.getElementById('modalTitle').innerText = isSignUp ? "Inscription" : "Connexion";
+            document.getElementById('mainAuthBtn').innerText = isSignUp ? "Créer mon compte" : "Se connecter";
+            document.getElementById('toggleAuthText').innerHTML = isSignUp ? 
+                'Déjà un compte ? <span class="blue-link" onclick="basculerInscription()">Se connecter</span>' : 
+                'Pas de compte ? <span class="blue-link" onclick="basculerInscription()">S'inscrire</span>';
+        }
+
         function ouvrirModal(id) { document.getElementById(id).style.display = 'flex'; }
         function fermerModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
         
         function montrerToast(cat) {
-            const toast = document.getElementById('toast');
-            toast.innerText = cat + " : Non disponible pour l'instant";
-            toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+            const t = document.getElementById('toast');
+            t.innerText = cat + " : Non disponible pour l'instant";
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
         }
+
+        // Affiche le nom du fichier quand on choisit une photo
+        document.getElementById('imgInput').onchange = function() {
+            document.getElementById('fileName').innerText = "Fichier sélectionné : " + this.files[0].name;
+        };
     </script>
 </body>
 </html>
