@@ -3,88 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AutoPièces GN</title>
+    <title>AutoPièces GN | Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <header class="main-header">
         <div class="logo">AutoPièces<span>GN</span></div>
-        <button onclick="ouvrirAuth()" class="small-btn">Connexion</button>
+        <div id="authStatus">
+            <button onclick="ouvrirModal('authModal')" class="btn-connexion">Connexion</button>
+        </div>
     </header>
 
     <div class="app-container">
-        <section class="dynamic-welcome">
-            <div class="welcome-card">
-                <div class="stats-mini">
-                    <span>⚡ Rapide</span><span>🛡️ Sécurisé</span><span>📍 Local</span>
-                </div>
-            </div>
-        </section>
+        
+        <div class="status-bar">
+            <span>⚡ Rapide</span>
+            <span>🛡️ Sécurisé</span>
+            <span>📍 Local</span>
+        </div>
 
-        <div class="quick-categories">
-            <div class="cat-chip" onclick="alerteCat('Toyota')">🚗 Toyota</div>
-            <div class="cat-chip" onclick="alerteCat('Camions')">🚛 Camions</div>
-            <div class="cat-chip" onclick="alerteCat('Moteurs')">🔧 Moteurs</div>
+        <div class="category-tabs">
+            <div class="tab-item" onclick="alerteIndispo('Toyota')">🚗 Toyota</div>
+            <div class="tab-item" onclick="alerteIndispo('Camions')">🚛 Camions</div>
+            <div class="tab-item" onclick="alerteIndispo('Moteurs')">🔧 Moteurs</div>
+            <div class="tab-item" onclick="alerteIndispo('Accessoires')">💎 Accessoires</div>
         </div>
 
         <h2 class="section-title">Annonces récentes</h2>
-        <div class="grid-container">
+
+        <div id="piecesContainer" class="grid-container">
+            
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1597811159424-64478f773663?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Alternateur">
-                <div class="card-info">
+                <div class="card-content">
                     <h3>Alternateur Mercedes</h3>
                     <p class="brand">Mercedes</p>
-                    <p class="card-price">850 000 GNF</p>
-                    <button class="btn-primary">💬 Discuter</button>
-                    <button class="btn-vendu-modern">Marquer comme vendu</button>
+                    <p class="price">850 000 GNF</p>
+                    <button class="btn-chat">💬 Discuter</button>
+                    <button class="btn-vendu">MARQUER COMME VENDU</button>
                 </div>
             </div>
 
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Pompe">
-                <div class="card-info">
-                    <h3>Pompe</h3>
+                <div class="card-content">
+                    <h3>Pompe à injection</h3>
                     <p class="brand">Bmw</p>
-                    <p class="card-price">120 000 GNF</p>
-                    <button class="btn-primary">💬 Discuter</button>
-                    <button class="btn-vendu-modern">Marquer comme vendu</button>
+                    <p class="price">120 000 GNF</p>
+                    <button class="btn-chat">💬 Discuter</button>
+                    <button class="btn-vendu">MARQUER COMME VENDU</button>
                 </div>
             </div>
+
         </div>
     </div>
 
     <div id="authModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-card">
             <h2>Connexion</h2>
-            <div class="modern-input-group">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Mot de passe">
+            <div class="input-container">
+                <input type="email" placeholder="Email" class="modern-input">
+                <input type="password" placeholder="Mot de passe" class="modern-input">
             </div>
-            <button class="btn-primary">Valider</button>
-            <p class="close-txt" onclick="fermerModals()">Fermer</p>
+            <button class="btn-submit">Valider</button>
+            <p class="link-close" onclick="fermerModals()">Fermer</p>
         </div>
     </div>
 
     <div id="modalForm" class="modal">
-        <div class="modal-content">
+        <div class="modal-card">
             <h2>Vendre une pièce</h2>
-            <div class="modern-input-group">
-                <input type="text" placeholder="Nom de la pièce">
-                <input type="number" placeholder="Prix (GNF)">
+            <input type="text" placeholder="Nom de la pièce" class="modern-input">
+            <input type="number" placeholder="Prix (GNF)" class="modern-input">
+            
+            <div class="photo-upload-zone">
+                <label for="photoPiece" class="photo-label">
+                    📸 Prendre une photo / Uploader
+                </label>
+                <input type="file" id="photoPiece" accept="image/*" capture="environment" class="hidden-input">
+                <p class="photo-hint">Galerie ou Appareil photo</p>
             </div>
-            <button class="btn-primary">Publier l'annonce</button>
-            <p class="close-txt" onclick="fermerModals()">Annuler</p>
+
+            <button class="btn-submit">Publier l'annonce</button>
+            <p class="link-close" onclick="fermerModals()">Annuler</p>
         </div>
     </div>
 
-    <div class="fab" onclick="ouvrirFormulaire()">+</div>
+    <div class="fab" onclick="ouvrirModal('modalForm')">+</div>
 
     <script>
-        function ouvrirAuth() { document.getElementById('authModal').style.display = 'block'; }
-        function ouvrirFormulaire() { document.getElementById('modalForm').style.display = 'block'; }
+        function ouvrirModal(id) { document.getElementById(id).style.display = 'flex'; }
         function fermerModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-        function alerteCat(nom) { alert("Aucune pièce disponible pour : " + nom); }
+        function alerteIndispo(cat) { alert("La catégorie " + cat + " est actuellement vide."); }
     </script>
 </body>
 </html>
