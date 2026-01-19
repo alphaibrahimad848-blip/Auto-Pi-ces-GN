@@ -6,12 +6,16 @@
     <title>AutoPièces GN</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
     <header class="main-header">
         <div class="logo">AutoPièces<span>GN</span></div>
-        <button onclick="ouvrirModal('authModal')" class="btn-connexion" id="authBtn">Connexion</button>
+        <button id="authBtn" onclick="ouvrirModal('authModal')" class="btn-connexion">Connexion</button>
     </header>
 
     <div class="app-container">
@@ -20,39 +24,21 @@
         </div>
 
         <div class="category-tabs">
-            <div class="tab-item" onclick="montrerToast('Toyota')">🚗 Toyota</div>
-            <div class="tab-item" onclick="montrerToast('Camions')">🚛 Camions</div>
-            <div class="tab-item" onclick="montrerToast('Moteurs')">🔧 Moteurs</div>
+            <div class="tab-item">🚗 Toyota</div>
+            <div class="tab-item">🚛 Camions</div>
+            <div class="tab-item">🔧 Moteurs</div>
         </div>
 
         <h2 class="section-title">Annonces récentes</h2>
-
-        <div id="piecesContainer" class="grid-container">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?q=80&w=500&auto=format&fit=crop" class="card-img" alt="Alternateur">
-                <div class="card-content">
-                    <h3>Alternateur Mercedes</h3>
-                    <p class="brand">Mercedes</p>
-                    <p class="price">850 000 GNF</p>
-                    <button class="btn-chat">💬 Discuter</button>
-                    <button class="btn-vendu">MARQUER COMME VENDU</button>
-                </div>
-            </div>
-        </div>
+        <div id="piecesContainer" class="grid-container"></div>
     </div>
 
     <div id="authModal" class="modal">
         <div class="modal-card">
             <h2 id="modalTitle">Connexion</h2>
-            <div class="auth-fields">
-                <input type="email" id="email" placeholder="Email" class="modern-input">
-                <input type="password" id="password" placeholder="Mot de passe" class="modern-input">
-            </div>
-            <button id="mainAuthBtn" class="btn-submit">Se connecter</button>
-            
-            <p class="auth-footer" id="toggleAuthText">
-                Pas de compte ? <span class="blue-link" onclick="basculerInscription()">S'inscrire</span>
-            </p>
+            <input type="email" id="email" placeholder="Email" class="modern-input">
+            <input type="password" id="password" placeholder="Mot de passe" class="modern-input">
+            <button id="mainAuthBtn" class="btn-submit">Valider</button>
             <p class="link-close" onclick="fermerModals()">Fermer</p>
         </div>
     </div>
@@ -64,16 +50,15 @@
             <input type="number" id="prixPiece" placeholder="Prix (GNF)" class="modern-input">
             
             <select id="catPiece" class="modern-input">
-                <option value="" disabled selected>Choisir la catégorie</option>
-                <option value="Voitures">🚗 Voitures / Toyota</option>
+                <option value="Toyota">🚗 Toyota</option>
                 <option value="Camions">🚛 Camions</option>
                 <option value="Moteurs">🔧 Moteurs</option>
             </select>
 
             <div class="photo-zone">
-                <label for="imgInput" class="photo-label">📸 Ajouter une photo</label>
-                <input type="file" id="imgInput" accept="image/*" capture="environment" class="hidden-input">
-                <p id="fileName" style="font-size: 10px; color: #94a3b8; margin-top: 5px;"></p>
+                <label for="imgInput" class="photo-btn">📸 Prendre une Photo</label>
+                <input type="file" id="imgInput" accept="image/*" capture="environment" style="display:none">
+                <div id="preview"></div>
             </div>
 
             <button id="btnPublier" class="btn-submit">Publier l'annonce</button>
@@ -81,36 +66,8 @@
         </div>
     </div>
 
-    <div id="toast" class="toast-msg"></div>
-
     <div class="fab" onclick="ouvrirModal('modalForm')">+</div>
 
-    <script>
-        let isSignUp = false;
-
-        function basculerInscription() {
-            isSignUp = !isSignUp;
-            document.getElementById('modalTitle').innerText = isSignUp ? "Inscription" : "Connexion";
-            document.getElementById('mainAuthBtn').innerText = isSignUp ? "Créer mon compte" : "Se connecter";
-            document.getElementById('toggleAuthText').innerHTML = isSignUp ? 
-                'Déjà un compte ? <span class="blue-link" onclick="basculerInscription()">Se connecter</span>' : 
-                'Pas de compte ? <span class="blue-link" onclick="basculerInscription()">S'inscrire</span>';
-        }
-
-        function ouvrirModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function fermerModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-        
-        function montrerToast(cat) {
-            const t = document.getElementById('toast');
-            t.innerText = cat + " : Non disponible pour l'instant";
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3000);
-        }
-
-        // Affiche le nom du fichier quand on choisit une photo
-        document.getElementById('imgInput').onchange = function() {
-            document.getElementById('fileName').innerText = "Fichier sélectionné : " + this.files[0].name;
-        };
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
