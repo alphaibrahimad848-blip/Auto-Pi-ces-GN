@@ -14,9 +14,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- FONCTIONS POUR L'AFFICHAGE ---
 async function chargerPieces() {
     const container = document.getElementById('piecesContainer');
+    if(!container) return;
     try {
         const querySnapshot = await getDocs(collection(db, "annonces"));
         container.innerHTML = ""; 
@@ -32,33 +32,35 @@ async function chargerPieces() {
                     </div>
                 </div>`;
         });
-    } catch (e) { console.log(e); }
+    } catch (e) { console.error(e); }
 }
 
-// --- GESTION DU FORMULAIRE ---
 const modal = document.getElementById('modalForm');
-document.getElementById('openBtn').onclick = () => modal.style.display = "block";
-document.getElementById('closeBtn').onclick = () => modal.style.display = "none";
+const openBtn = document.getElementById('openBtn');
+const closeBtn = document.getElementById('closeBtn');
 
-document.getElementById('addForm').onsubmit = async (e) => {
-    e.preventDefault();
-    const nouvellePiece = {
-        nom: document.getElementById('nom').value,
-        marque: document.getElementById('marque').value,
-        prix: Number(document.getElementById('prix').value),
-        etat: document.getElementById('etat').value,
-        url_image: document.getElementById('url_image').value
+if(openBtn) openBtn.onclick = () => modal.style.display = "block";
+if(closeBtn) closeBtn.onclick = () => modal.style.display = "none";
+
+const addForm = document.getElementById('addForm');
+if(addForm) {
+    addForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const nouvellePiece = {
+            nom: document.getElementById('nom').value,
+            marque: document.getElementById('marque').value,
+            prix: Number(document.getElementById('prix').value),
+            etat: document.getElementById('etat').value,
+            url_image: document.getElementById('url_image').value
+        };
+        try {
+            await addDoc(collection(db, "annonces"), nouvellePiece);
+            modal.style.display = "none";
+            addForm.reset();
+            chargerPieces();
+            alert("Annonce publiée !");
+        } catch (error) { alert("Erreur lors de l'ajout"); }
     };
-
-    try {
-        await addDoc(collection(db, "annonces"), nouvellePiece);
-        modal.style.display = "none";
-        document.getElementById('addForm').reset();
-        chargerPieces(); // Rafraîchir la liste
-        alert("Annonce publiée !");
-    } catch (error) {
-        alert("Erreur lors de l'ajout");
-    }
-};
+}
 
 chargerPieces();
