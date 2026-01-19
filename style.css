@@ -1,65 +1,80 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCXAy63dWnzyj_uubs9FxK-tSBLR7Cef78",
-  authDomain: "autopiecesguinee.firebaseapp.com",
-  projectId: "autopiecesguinee",
-  storageBucket: "autopiecesguinee.firebasestorage.app",
-  messagingSenderId: "569278363345",
-  appId: "1:569278363345:web:132ed40ab3c2fcb7e437f0",
-  measurementId: "G-9CTBKLDRLG"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-async function chargerPieces() {
-    const container = document.getElementById('piecesContainer');
-    try {
-        const querySnapshot = await getDocs(collection(db, "annonces"));
-        container.innerHTML = ""; 
-        querySnapshot.forEach((doc) => {
-            const piece = doc.data();
-            container.innerHTML += `
-                <div class="card">
-                    <img src="${piece.url_image || 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=500'}" class="card-img">
-                    <div class="card-info">
-                        <h3>${piece.nom}</h3>
-                        <p>${piece.marque} • ${piece.etat}</p>
-                        <div class="card-price">${Number(piece.prix).toLocaleString()} GNF</div>
-                    </div>
-                </div>`;
-        });
-    } catch (e) { console.log(e); }
+:root {
+    --primary: #2563eb;
+    --dark: #0f172a;
+    --card: #1e293b;
 }
 
-const modal = document.getElementById('modalForm');
-const openBtn = document.getElementById('openBtn');
-const closeBtn = document.getElementById('closeBtn');
-
-if(openBtn) openBtn.onclick = () => modal.style.display = "block";
-if(closeBtn) closeBtn.onclick = () => modal.style.display = "none";
-
-const addForm = document.getElementById('addForm');
-if(addForm) {
-    addForm.onsubmit = async (e) => {
-        e.preventDefault();
-        const nouvellePiece = {
-            nom: document.getElementById('nom').value,
-            marque: document.getElementById('marque').value,
-            prix: Number(document.getElementById('prix').value),
-            etat: document.getElementById('etat').value,
-            url_image: document.getElementById('url_image').value
-        };
-        try {
-            await addDoc(collection(db, "annonces"), nouvellePiece);
-            modal.style.display = "none";
-            addForm.reset();
-            chargerPieces();
-            alert("Annonce publiée !");
-        } catch (error) { alert("Erreur lors de l'ajout"); }
-    };
+body {
+    background-color: var(--dark);
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin: 0;
+    padding: 20px;
 }
 
-chargerPieces();
+.logo { font-size: 24px; font-weight: 800; }
+.logo span { color: var(--primary); }
+
+.hero h1 { font-size: 2rem; margin-top: 40px; }
+
+.search-bar input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: white;
+    margin: 20px 0;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.card-img { width: 100%; height: 200px; object-fit: cover; }
+.card-info { padding: 15px; }
+.card-price { color: var(--primary); font-weight: 800; font-size: 1.2rem; }
+
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--primary);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--card);
+    margin: 10% auto;
+    padding: 25px;
+    width: 85%;
+    border-radius: 25px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: none;
+    background: #0f172a;
+    color: white;
+}
