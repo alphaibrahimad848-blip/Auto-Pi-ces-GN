@@ -15,126 +15,126 @@ let base64Image = "";
 let isSignUpMode = false;
 let currentChatId = "";
 
-// --- GESTION UTILISATEUR ---
+// --- SYSTÈME DE NOTIFICATION MODERNE ---
+function toast(msg) {
+    const container = document.getElementById('toast-container');
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.innerText = msg;
+    container.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+}
+
+// --- AUTHENTIFICATION ---
 function basculerAuth() {
     isSignUpMode = !isSignUpMode;
     document.getElementById('modalTitle').innerText = isSignUpMode ? "Inscription" : "Connexion";
-    document.getElementById('toggleText').innerText = isSignUpMode ? "Déjà un compte ?" : "Pas de compte ?";
-    document.querySelector('.link-blue').innerText = isSignUpMode ? "Se connecter" : "S'inscrire";
 }
 
 document.getElementById('mainAuthBtn').onclick = async () => {
     const email = document.getElementById('email').value;
     const pass = document.getElementById('password').value;
-    if(!email || !pass) return alert("Remplissez les champs");
-
     try {
-        if (isSignUpMode) {
-            await auth.createUserWithEmailAndPassword(email, pass);
-            alert("Compte créé avec succès !");
-        } else {
-            await auth.signInWithEmailAndPassword(email, pass);
-        }
+        if (isSignUpMode) await auth.createUserWithEmailAndPassword(email, pass);
+        else await auth.signInWithEmailAndPassword(email, pass);
+        toast("✨ Succès !");
         fermerModals();
-    } catch (e) { alert(e.message); }
+    } catch (e) { toast("❌ " + e.message); }
 };
 
-auth.onAuthStateChanged(user => {
-    const status = document.getElementById('authStatus');
-    if(user) status.innerText = "Connecté en tant que : " + user.email;
-    else status.innerText = "Vous n'êtes pas connecté.";
-});
-
-// --- GESTION IMAGE ---
-document.getElementById('imgInput').addEventListener('change', (e) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-        base64Image = reader.result;
-        document.getElementById('preview').innerHTML = `<img src="${base64Image}">`;
-    };
-    reader.readAsDataURL(e.target.files[0]);
-});
-
 // --- PUBLICATION ---
+document.getElementById('imgInput').onchange = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => { base64Image = reader.result; document.getElementById('preview').innerHTML = `<img src="${base64Image}" style="width:50px;border-radius:5px">`; };
+    reader.readAsDataURL(e.target.files[0]);
+};
+
 document.getElementById('btnPublier').onclick = async () => {
     const user = auth.currentUser;
     if(!user) return ouvrirModal('authModal');
-    
     const nom = document.getElementById('nomPiece').value;
     const prix = document.getElementById('prixPiece').value;
-    const cat = document.getElementById('catPiece').value;
-
-    if(!nom || !prix || !base64Image) return alert("Infos manquantes !");
+    if(!nom || !prix || !base64Image) return toast("⚠️ Remplissez tout !");
 
     await db.collection("annonces").add({
-        nom, prix, cat, image: base64Image,
-        sellerId: user.uid, sellerEmail: user.email, date: new Date()
+        nom, prix, image: base64Image, sellerId: user.uid, sellerEmail: user.email, date: new Date()
     });
-    alert("Annonce publiée !");
+    toast("✅ Annonce publiée !");
     fermerModals();
 };
 
-// --- CHAT INTERNE ---
-window.ouvrirChat = (annonceId, sellerId, nomPiece) => {
-    const user = auth.currentUser;
-    if(!user) return ouvrirModal('authModal');
-    if(user.uid === sellerId) return alert("C'est votre annonce");
-
-    // Création d'un ID de chat unique entre ces deux personnes pour cette pièce
-    currentChatId = [user.uid, sellerId, annonceId].sort().join('_');
-    document.getElementById('chatTitle').innerText = "Discuter pour : " + nomPiece;
+// --- GESTION DU CHAT ---
+window.ouvrirChat = (annonceId, sellerId, nom) => {
+    if(!auth.currentUser) return ouvrirModal('authModal');
+    if(auth.currentUser.uid === sellerId) return toast("C'est votre annonce !");
+    
+    currentChatId = [auth.currentUser.uid, sellerId, annonceId].sort().join('_');
+    document.getElementById('chatTitle').innerText = nom;
     ouvrirModal('chatModal');
+    ecouterMessages();
+};
 
-    // Écoute des messages en temps réel
+function ecouterMessages() {
     db.collection("chats").doc(currentChatId).collection("messages").orderBy("date")
     .onSnapshot(snap => {
         const cont = document.getElementById('messagesContainer');
         cont.innerHTML = "";
         snap.forEach(doc => {
             const m = doc.data();
-            const side = m.senderId === user.uid ? 'right' : 'left';
+            const side = m.senderId === auth.currentUser.uid ? 'right' : 'left';
             cont.innerHTML += `<div class="msg ${side}">${m.text}</div>`;
         });
         cont.scrollTop = cont.scrollHeight;
     });
-};
+}
 
 document.getElementById('btnSend').onclick = async () => {
     const text = document.getElementById('chatInput').value;
-    if(!text || !currentChatId) return;
-
+    if(!text) return;
     await db.collection("chats").doc(currentChatId).collection("messages").add({
-        text, senderId: auth.currentUser.uid, senderEmail: auth.currentUser.email, date: new Date()
+        text, senderId: auth.currentUser.uid, date: new Date()
     });
     document.getElementById('chatInput').value = "";
 };
 
-// --- AFFICHAGE ---
+// --- CENTRE DE MESSAGES ---
+auth.onAuthStateChanged(user => {
+    if(user) {
+        db.collection("chats").onSnapshot(snap => {
+            const list = document.getElementById('listChatsContainer');
+            const badge = document.getElementById('msgBadge');
+            list.innerHTML = "";
+            let hasMsg = false;
+            snap.forEach(doc => {
+                if(doc.id.includes(user.uid)) {
+                    hasMsg = true;
+                    list.innerHTML += `<div class="chat-item" onclick="ouvrirChatDepuisListe('${doc.id}')">💬 Discussion active</div>`;
+                }
+            });
+            badge.style.display = hasMsg ? 'block' : 'none';
+        });
+    }
+});
+
+window.ouvrirChatDepuisListe = (id) => { currentChatId = id; ouvrirModal('chatModal'); ecouterMessages(); };
+
+// --- AFFICHAGE ANNONCES ---
 db.collection("annonces").orderBy("date", "desc").onSnapshot(snap => {
-    const container = document.getElementById('piecesContainer');
-    container.innerHTML = "";
+    const cont = document.getElementById('piecesContainer');
+    cont.innerHTML = "";
     snap.forEach(doc => {
         const p = doc.data();
-        const isOwner = auth.currentUser && auth.currentUser.uid === p.sellerId;
-        container.innerHTML += `
+        cont.innerHTML += `
             <div class="card">
                 <img src="${p.image}" class="card-img">
                 <div class="card-content">
-                    <h3>${p.nom}</h3>
                     <p class="price">${p.prix} GNF</p>
-                    <button class="btn-chat" onclick="ouvrirChat('${doc.id}', '${p.sellerId}', '${p.nom}')">💬 Discuter</button>
-                    ${isOwner ? `<button class="btn-vendu" onclick="supprimer('${doc.id}')">VENDU (Supprimer)</button>` : ''}
+                    <h3>${p.nom}</h3>
+                    <button class="btn-submit" onclick="ouvrirChat('${doc.id}','${p.sellerId}','${p.nom}')">Discuter</button>
                 </div>
             </div>`;
     });
 });
 
-window.supprimer = async (id) => {
-    if(confirm("Supprimer l'annonce ?")) await db.collection("annonces").doc(id).delete();
-};
-
 window.ouvrirModal = (id) => document.getElementById(id).style.display = 'flex';
-window.fermerModals = () => {
-    document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-    currentChatId = ""; // Reset chat quand on ferme
-};
+window.fermerModals = () => document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
