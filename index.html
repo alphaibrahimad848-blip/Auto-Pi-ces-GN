@@ -3,71 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AutoPièces GN | Marketplace</title>
+    <title>AutoPièces GN</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <header class="main-header">
         <div class="logo">AutoPièces<span>GN</span></div>
-        <div id="authStatus">
-            <button onclick="ouvrirAuth()" class="small-btn">Connexion</button>
-        </div>
+        <button onclick="ouvrirAuth()" class="small-btn">Connexion</button>
     </header>
 
     <div class="app-container">
-        
         <section class="dynamic-welcome">
             <div class="welcome-card">
-                <h1>Trouvez la pièce idéale</h1>
-                <p>Marché n°1 de pièces détachées en Guinée</p>
                 <div class="stats-mini">
-                    <span>⚡ Rapide</span>
-                    <span>🛡️ Sécurisé</span>
-                    <span>📍 Local</span>
+                    <span>⚡ Rapide</span><span>🛡️ Sécurisé</span><span>📍 Local</span>
                 </div>
             </div>
-        </section>
-
-        <section class="search-container">
-            <input type="text" id="searchInput" placeholder="Rechercher (ex: Moteur, Toyota, Freins)...">
         </section>
 
         <div class="quick-categories">
-            <div class="cat-chip">🚗 Toyota</div>
-            <div class="cat-chip">🚛 Camions</div>
-            <div class="cat-chip">🔧 Moteurs</div>
-            <div class="cat-chip">🔋 Batteries</div>
+            <div class="cat-chip" onclick="alerteCat('Toyota')">🚗 Toyota</div>
+            <div class="cat-chip" onclick="alerteCat('Camions')">🚛 Camions</div>
+            <div class="cat-chip" onclick="alerteCat('Moteurs')">🔧 Moteurs</div>
         </div>
 
         <h2 class="section-title">Annonces récentes</h2>
-        <div id="piecesContainer" class="grid-container">
+        <div class="grid-container">
             <div class="card">
-                <div class="card-badge">Nouveau</div>
-                <img src="https://via.placeholder.com/300x200" class="card-img" alt="Pièce">
+                <img src="https://images.unsplash.com/photo-1597811159424-64478f773663?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Alternateur">
                 <div class="card-info">
                     <h3>Alternateur Mercedes</h3>
+                    <p class="brand">Mercedes</p>
                     <p class="card-price">850 000 GNF</p>
-                    <button class="submit-btn">Discuter avec le vendeur</button>
+                    <button class="btn-primary">💬 Discuter</button>
+                    <button class="btn-vendu-modern">Marquer comme vendu</button>
                 </div>
             </div>
-        </div>
 
-        <div id="authModal" class="modal">
-            <div class="modal-content">
-                <h2 id="authTitle">Créer un compte</h2>
-                <input type="email" id="authEmail" placeholder="Email">
-                <input type="password" id="authPwd" placeholder="Mot de passe">
-                <button id="authSubmit" class="submit-btn">Valider</button>
-                <p id="toggleAuth" onclick="basculerAuth()" class="close-txt">Déjà un compte ? Connectez-vous</p>
-                <button class="close-txt" onclick="fermerModals()">Fermer</button>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Pompe">
+                <div class="card-info">
+                    <h3>Pompe</h3>
+                    <p class="brand">Bmw</p>
+                    <p class="card-price">120 000 GNF</p>
+                    <button class="btn-primary">💬 Discuter</button>
+                    <button class="btn-vendu-modern">Marquer comme vendu</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="fab" id="openBtn">+</div>
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <h2>Connexion</h2>
+            <div class="modern-input-group">
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Mot de passe">
+            </div>
+            <button class="btn-primary">Valider</button>
+            <p class="close-txt" onclick="fermerModals()">Fermer</p>
+        </div>
+    </div>
 
-    <script type="module" src="app.js"></script>
+    <div id="modalForm" class="modal">
+        <div class="modal-content">
+            <h2>Vendre une pièce</h2>
+            <div class="modern-input-group">
+                <input type="text" placeholder="Nom de la pièce">
+                <input type="number" placeholder="Prix (GNF)">
+            </div>
+            <button class="btn-primary">Publier l'annonce</button>
+            <p class="close-txt" onclick="fermerModals()">Annuler</p>
+        </div>
+    </div>
+
+    <div class="fab" onclick="ouvrirFormulaire()">+</div>
+
+    <script>
+        function ouvrirAuth() { document.getElementById('authModal').style.display = 'block'; }
+        function ouvrirFormulaire() { document.getElementById('modalForm').style.display = 'block'; }
+        function fermerModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+        function alerteCat(nom) { alert("Aucune pièce disponible pour : " + nom); }
+    </script>
 </body>
 </html>
