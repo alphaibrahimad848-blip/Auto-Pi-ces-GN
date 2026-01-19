@@ -1,30 +1,147 @@
-:root { --primary: #2563eb; --dark: #0f172a; --card: #1e293b; }
-body { background: var(--dark); color: white; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 15px; }
-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
-.logo { font-size: 22px; font-weight: 800; }
-.logo span { color: var(--primary); }
-.small-btn { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 10px; font-weight: 600; }
+:root {
+    --primary: #2563eb;
+    --dark: #0f172a;
+    --card: #1e293b;
+    --accent: #3b82f6;
+}
 
-#searchInput { width: 100%; padding: 15px; border-radius: 15px; background: var(--card); border: 1px solid #334155; color: white; margin: 20px 0; }
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
-.card { background: var(--card); border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
-.card-img { width: 100%; height: 180px; object-fit: cover; }
-.card-info { padding: 15px; }
-.card-price { color: var(--primary); font-weight: 800; font-size: 1.2rem; margin: 5px 0; }
+body {
+    background-color: var(--dark);
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
 
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; }
-.modal-content { background: var(--card); margin: 15% auto; padding: 25px; width: 85%; border-radius: 25px; }
-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: none; background: #0f172a; color: white; box-sizing: border-box; }
+/* Header avec bandeau bleu - TITRE DESCENDU */
+header {
+    background-color: var(--primary);
+    width: 100%;
+    padding-top: 55px; /* Descend le titre pour éviter les encoches */
+    padding-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
 
-.chat-container { height: 70vh; display: flex; flex-direction: column; }
-#messagesList { flex-grow: 1; overflow-y: auto; margin-bottom: 10px; padding: 10px; }
-.msg { margin: 5px 0; padding: 8px 12px; border-radius: 10px; max-width: 80%; font-size: 14px; }
-.msg.me { background: var(--primary); margin-left: auto; }
-.msg.them { background: #334155; }
-.chat-input { display: flex; gap: 5px; }
-#sendMsg { background: var(--primary); border: none; color: white; border-radius: 10px; padding: 0 15px; }
+.logo { 
+    font-size: 24px; 
+    font-weight: 800;
+    color: white;
+}
 
-.fab { position: fixed; bottom: 25px; right: 25px; background: var(--primary); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-.submit-btn { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 700; margin-top: 10px; cursor: pointer;}
-.btn-vendu { background: #ef4444; width: 100%; border: none; color: white; padding: 10px; border-radius: 10px; margin-top: 5px; cursor: pointer;}
-.close-txt { background: none; border: none; color: #94a3b8; width: 100%; margin-top: 15px; text-decoration: underline; cursor: pointer;}
+.logo span { color: #cbd5e1; }
+
+.app-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* Section Introduction et Menu Déroulant */
+.app-intro {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.modern-details {
+    background: var(--card);
+    border-radius: 15px;
+    padding: 12px;
+    margin: 15px auto;
+    border: 1px solid rgba(255,255,255,0.1);
+    text-align: left;
+}
+
+.modern-details summary {
+    list-style: none;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+    text-align: center;
+}
+
+.details-content {
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+/* Grille et Cartes adaptée aux écrans */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes */
+    gap: 12px;
+    width: 100%;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.card-img { width: 100%; height: 120px; object-fit: cover; }
+.card-info { padding: 8px; text-align: center; }
+
+/* Boutons et Formulaires */
+#searchInput {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    background: var(--card);
+    border: 1px solid #334155;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.submit-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn {
+    background: transparent;
+    color: #94a3b8;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Modal centrée */
+.modal-content {
+    background: var(--card);
+    margin: 20% auto;
+    padding: 20px;
+    width: 85%;
+    border-radius: 20px;
+    text-align: center;
+}
+
+/* Bouton + Flottant */
+.fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary);
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    z-index: 100;
+}
