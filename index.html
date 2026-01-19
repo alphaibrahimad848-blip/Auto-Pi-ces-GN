@@ -14,37 +14,20 @@
     </header>
 
     <div class="app-container">
-        <section class="app-intro">
-            <div class="intro-content">
-                <h2>Trouvez vos pièces auto</h2>
-                <p>La plateforme n°1 en Guinée.</p>
-                <details class="modern-details">
-                    <summary>Infos sur l'application ▾</summary>
-                    <div class="details-content">
-                        <ul>
-                            <li>🚀 <strong>Vente rapide :</strong> Publiez en 30 secondes.</li>
-                            <li>💬 <strong>Chat direct :</strong> Discutez avec les vendeurs.</li>
-                            <li>🛡️ <strong>Sécurité :</strong> Annonces vérifiées par GN.</li>
-                        </ul>
-                    </div>
-                </details>
-            </div>
-        </section>
-
-        <div class="hero">
-            <input type="text" id="searchInput" placeholder="Rechercher une pièce (ex: Alternateur)...">
+        <div class="search-section">
+            <input type="text" id="searchInput" placeholder="Rechercher une pièce...">
         </div>
 
         <div class="grid-container" id="partsGrid">
             <div class="card">
-                <img src="https://via.placeholder.com/150" class="card-img" alt="Pièce">
+                <div class="card-img-placeholder">📸 Pièce</div>
                 <div class="card-info">
                     <h3>Alternateur Mercedes</h3>
                     <p class="card-price">850 000 GNF</p>
-                    <button class="submit-btn">Discuter</button>
+                    <button class="btn-chat">Discuter avec le vendeur</button>
                 </div>
             </div>
-        </div>
+            </div>
     </div>
 
     <div class="fab" onclick="document.getElementById('addModal').style.display='block'">+</div>
@@ -54,8 +37,8 @@
             <h3>Vendre une pièce</h3>
             <input type="text" placeholder="Nom de la pièce">
             <input type="number" placeholder="Prix (GNF)">
-            <button class="submit-btn" onclick="this.parentElement.parentElement.style.display='none'">Valider</button>
-            <button class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">Fermer</button>
+            <button class="submit-btn">Valider l'annonce</button>
+            <p class="close-text" onclick="document.getElementById('addModal').style.display='none'">Fermer</p>
         </div>
     </div>
 
