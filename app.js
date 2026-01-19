@@ -62,5 +62,4 @@ if(addForm) {
         } catch (error) { alert("Erreur lors de l'ajout"); }
     };
 }
-
 chargerPieces();
