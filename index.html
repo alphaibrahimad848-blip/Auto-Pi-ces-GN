@@ -15,18 +15,15 @@
 
     <header class="main-header">
         <div class="logo">AutoPièces<span>GN</span></div>
-        <button id="authBtn" onclick="ouvrirModal('authModal')" class="btn-connexion">Connexion</button>
+        <button id="authBtn" onclick="ouvrirModal('authModal')" class="btn-connexion">Mon Compte</button>
     </header>
 
     <div class="app-container">
-        <div class="status-bar">
-            <span>⚡ Rapide</span> <span>🛡️ Sécurisé</span> <span>📍 Local</span>
-        </div>
-
         <div class="category-tabs">
-            <div class="tab-item">🚗 Toyota</div>
-            <div class="tab-item">🚛 Camions</div>
-            <div class="tab-item">🔧 Moteurs</div>
+            <div class="tab-item" onclick="filtrerCat('Toyota')">🚗 Toyota</div>
+            <div class="tab-item" onclick="filtrerCat('Camions')">🚛 Camions</div>
+            <div class="tab-item" onclick="filtrerCat('Moteurs')">🔧 Moteurs</div>
+            <div class="tab-item" onclick="filtrerCat('Accessoires')">🛠 Accessoires</div>
         </div>
 
         <h2 class="section-title">Annonces récentes</h2>
@@ -39,7 +36,24 @@
             <input type="email" id="email" placeholder="Email" class="modern-input">
             <input type="password" id="password" placeholder="Mot de passe" class="modern-input">
             <button id="mainAuthBtn" class="btn-submit">Valider</button>
+            <p id="authStatus" style="font-size: 12px; margin-top: 10px; color: #94a3b8;"></p>
+            <p style="margin-top:15px; font-size:13px">
+                <span id="toggleText">Pas de compte ?</span> 
+                <span class="link-blue" onclick="basculerAuth()">S'inscrire</span>
+            </p>
             <p class="link-close" onclick="fermerModals()">Fermer</p>
+        </div>
+    </div>
+
+    <div id="chatModal" class="modal">
+        <div class="modal-card chat-box">
+            <h2 id="chatTitle">Discussion</h2>
+            <div id="messagesContainer"></div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Votre message..." class="modern-input">
+                <button id="btnSend" class="btn-submit">Envoyer</button>
+            </div>
+            <p class="link-close" onclick="fermerModals()">Quitter le chat</p>
         </div>
     </div>
 
@@ -48,19 +62,17 @@
             <h2>Vendre une pièce</h2>
             <input type="text" id="nomPiece" placeholder="Nom de la pièce" class="modern-input">
             <input type="number" id="prixPiece" placeholder="Prix (GNF)" class="modern-input">
-            
             <select id="catPiece" class="modern-input">
-                <option value="Toyota">🚗 Toyota</option>
-                <option value="Camions">🚛 Camions</option>
-                <option value="Moteurs">🔧 Moteurs</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Camions">Camions</option>
+                <option value="Moteurs">Moteurs</option>
+                <option value="Accessoires">Accessoires</option>
             </select>
-
             <div class="photo-zone">
-                <label for="imgInput" class="photo-btn">📸 Prendre une Photo</label>
+                <label for="imgInput" class="photo-btn">📸 Ajouter une Photo</label>
                 <input type="file" id="imgInput" accept="image/*" capture="environment" style="display:none">
                 <div id="preview"></div>
             </div>
-
             <button id="btnPublier" class="btn-submit">Publier l'annonce</button>
             <p class="link-close" onclick="fermerModals()">Annuler</p>
         </div>
