@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AutoPièces GN | Marketplace</title>
+    <title>AutoPièces GN</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
@@ -11,30 +11,24 @@
 
     <header class="main-header">
         <div class="logo">AutoPièces<span>GN</span></div>
-        <div id="authStatus">
-            <button onclick="ouvrirModal('authModal')" class="btn-connexion">Connexion</button>
-        </div>
+        <button onclick="ouvrirModal('authModal')" class="btn-connexion">Connexion</button>
     </header>
 
     <div class="app-container">
-        
         <div class="status-bar">
-            <span>⚡ Rapide</span>
-            <span>🛡️ Sécurisé</span>
-            <span>📍 Local</span>
+            <span>⚡ Rapide</span> <span>🛡️ Sécurisé</span> <span>📍 Local</span>
         </div>
 
         <div class="category-tabs">
-            <div class="tab-item" onclick="alerteIndispo('Toyota')">🚗 Toyota</div>
-            <div class="tab-item" onclick="alerteIndispo('Camions')">🚛 Camions</div>
-            <div class="tab-item" onclick="alerteIndispo('Moteurs')">🔧 Moteurs</div>
-            <div class="tab-item" onclick="alerteIndispo('Accessoires')">💎 Accessoires</div>
+            <div class="tab-item" onclick="montrerToast('Toyota')">🚗 Toyota</div>
+            <div class="tab-item" onclick="montrerToast('Camions')">🚛 Camions</div>
+            <div class="tab-item" onclick="montrerToast('Moteurs')">🔧 Moteurs</div>
+            <div class="tab-item" onclick="montrerToast('Accessoires')">💎 Accessoires</div>
         </div>
 
         <h2 class="section-title">Annonces récentes</h2>
 
-        <div id="piecesContainer" class="grid-container">
-            
+        <div class="grid-container">
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1597811159424-64478f773663?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Alternateur">
                 <div class="card-content">
@@ -45,7 +39,6 @@
                     <button class="btn-vendu">MARQUER COMME VENDU</button>
                 </div>
             </div>
-
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?q=80&w=400&auto=format&fit=crop" class="card-img" alt="Pompe">
                 <div class="card-content">
@@ -56,18 +49,16 @@
                     <button class="btn-vendu">MARQUER COMME VENDU</button>
                 </div>
             </div>
-
         </div>
     </div>
 
     <div id="authModal" class="modal">
         <div class="modal-card">
             <h2>Connexion</h2>
-            <div class="input-container">
-                <input type="email" placeholder="Email" class="modern-input">
-                <input type="password" placeholder="Mot de passe" class="modern-input">
-            </div>
+            <input type="email" placeholder="Email" class="modern-input">
+            <input type="password" placeholder="Mot de passe" class="modern-input">
             <button class="btn-submit">Valider</button>
+            <p class="auth-options">Pas encore de compte ? <span class="blue-link">S'inscrire</span></p>
             <p class="link-close" onclick="fermerModals()">Fermer</p>
         </div>
     </div>
@@ -78,12 +69,17 @@
             <input type="text" placeholder="Nom de la pièce" class="modern-input">
             <input type="number" placeholder="Prix (GNF)" class="modern-input">
             
+            <select class="modern-input">
+                <option value="" disabled selected>Choisir la catégorie</option>
+                <option value="voitures">🚗 Voitures / Toyota</option>
+                <option value="camions">🚛 Camions</option>
+                <option value="moteurs">🔧 Moteurs</option>
+                <option value="accessoires">💎 Accessoires</option>
+            </select>
+
             <div class="photo-upload-zone">
-                <label for="photoPiece" class="photo-label">
-                    📸 Prendre une photo / Uploader
-                </label>
+                <label for="photoPiece" class="photo-label">📸 Prendre une photo / Galerie</label>
                 <input type="file" id="photoPiece" accept="image/*" capture="environment" class="hidden-input">
-                <p class="photo-hint">Galerie ou Appareil photo</p>
             </div>
 
             <button class="btn-submit">Publier l'annonce</button>
@@ -91,12 +87,20 @@
         </div>
     </div>
 
+    <div id="toast" class="toast-msg">Non disponible pour l'instant</div>
+
     <div class="fab" onclick="ouvrirModal('modalForm')">+</div>
 
     <script>
         function ouvrirModal(id) { document.getElementById(id).style.display = 'flex'; }
         function fermerModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-        function alerteIndispo(cat) { alert("La catégorie " + cat + " est actuellement vide."); }
+        
+        function montrerToast(cat) {
+            const toast = document.getElementById('toast');
+            toast.innerText = cat + " : Non disponible pour l'instant";
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
     </script>
 </body>
 </html>
