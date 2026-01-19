@@ -2,71 +2,62 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoPièces GN | Marketplace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AutoPièces GN</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="app-container">
-        <header>
-            <div class="logo">AutoPièces<span>GN</span></div>
-            <div id="authStatus">
-                <button onclick="ouvrirAuth()" class="small-btn">Connexion</button>
-            </div>
-        </header>
 
-        <section class="hero">
-            <h1>Trouvez la pièce idéale</h1>
-            <input type="text" id="searchInput" placeholder="Rechercher une pièce (ex: Toyota)...">
+    <header>
+        <div class="logo">AutoPièces <span>GN</span></div>
+    </header>
+
+    <div class="app-container">
+        <section class="app-intro">
+            <div class="intro-content">
+                <h2>Trouvez vos pièces auto</h2>
+                <p>La plateforme n°1 en Guinée.</p>
+                <details class="modern-details">
+                    <summary>Infos sur l'application ▾</summary>
+                    <div class="details-content">
+                        <ul>
+                            <li>🚀 <strong>Vente rapide :</strong> Publiez en 30 secondes.</li>
+                            <li>💬 <strong>Chat direct :</strong> Discutez avec les vendeurs.</li>
+                            <li>🛡️ <strong>Sécurité :</strong> Annonces vérifiées par GN.</li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
         </section>
 
-        <div id="piecesContainer" class="grid-container">
-            <div class="loading-spinner">Chargement des pièces...</div>
+        <div class="hero">
+            <input type="text" id="searchInput" placeholder="Rechercher une pièce (ex: Alternateur)...">
         </div>
 
-        <div id="authModal" class="modal">
-            <div class="modal-content">
-                <h2 id="authTitle">Créer un compte</h2>
-                <input type="email" id="authEmail" placeholder="Email">
-                <input type="password" id="authPwd" placeholder="Mot de passe">
-                <button id="authSubmit" class="submit-btn">Valider</button>
-                <p id="toggleAuth" onclick="basculerAuth()" style="cursor:pointer; margin-top:15px; font-size:14px; text-decoration:underline;">Déjà un compte ? Connectez-vous</p>
-                <button class="close-txt" onclick="fermerModals()">Fermer</button>
-            </div>
-        </div>
-
-        <div id="chatModal" class="modal">
-            <div class="modal-content chat-container">
-                <h2 id="chatHeader">Chat</h2>
-                <div id="messagesList"></div>
-                <div class="chat-input">
-                    <input type="text" id="msgInput" placeholder="Votre message...">
-                    <button id="sendMsg">Ok</button>
+        <div class="grid-container" id="partsGrid">
+            <div class="card">
+                <img src="https://via.placeholder.com/150" class="card-img" alt="Pièce">
+                <div class="card-info">
+                    <h3>Alternateur Mercedes</h3>
+                    <p class="card-price">850 000 GNF</p>
+                    <button class="submit-btn">Discuter</button>
                 </div>
-                <button class="close-txt" onclick="fermerModals()">Fermer</button>
             </div>
         </div>
-
-        <div id="modalForm" class="modal">
-            <div class="modal-content">
-                <h2>Vendre une pièce</h2>
-                <form id="addForm">
-                    <input type="text" id="nom" placeholder="Nom de la pièce (ex: Alternateur)" required>
-                    <input type="text" id="marque" placeholder="Marque (ex: Mercedes)" required>
-                    <input type="number" id="prix" placeholder="Prix en GNF" required>
-                    
-                    <label style="color: #94a3b8; font-size: 12px; display: block; margin-top: 10px; text-align: left;">Prendre une photo de la pièce :</label>
-                    <input type="file" id="imageFile" accept="image/*" capture="environment" style="background: #0f172a; color: white; border: 1px dashed #2563eb;">
-                    
-                    <button type="submit" class="submit-btn">Publier l'annonce</button>
-                </form>
-                <button class="close-txt" onclick="fermerModals()">Annuler</button>
-            </div>
-        </div>
-
-        <div class="fab" id="openBtn">+</div>
     </div>
-    <script type="module" src="app.js"></script>
+
+    <div class="fab" onclick="document.getElementById('addModal').style.display='block'">+</div>
+
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h3>Vendre une pièce</h3>
+            <input type="text" placeholder="Nom de la pièce">
+            <input type="number" placeholder="Prix (GNF)">
+            <button class="submit-btn" onclick="this.parentElement.parentElement.style.display='none'">Valider</button>
+            <button class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">Fermer</button>
+        </div>
+    </div>
+
 </body>
 </html>
