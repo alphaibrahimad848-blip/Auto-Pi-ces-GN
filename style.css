@@ -1,155 +1,89 @@
-/* Palette de couleurs et variables */
 :root {
     --primary: #2563eb;
     --dark: #0f172a;
     --card: #1e293b;
-    --text-muted: #94a3b8;
 }
 
-/* Reset pour éviter les débordements */
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
+* { box-sizing: border-box; }
 
 body {
-    background-color: var(--dark);
+    background: var(--dark);
     color: white;
     font-family: 'Plus Jakarta Sans', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center; /* Centre l'application sur les grands écrans */
-    overflow-x: hidden;
+    justify-content: center; /* Centre horizontalement */
 }
 
-/* Conteneur principal limité à la taille d'un téléphone */
 .app-container {
     width: 100%;
-    max-width: 480px; /* Largeur max d'un smartphone */
-    min-height: 100vh;
-    padding: 15px;
+    max-width: 450px; /* Taille téléphone */
+    padding: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center; /* Centre les éléments enfants */
 }
 
-/* Header et Logo bien centrés */
+/* Centrage du Logo */
 header {
+    width: 100%;
     text-align: center;
     padding: 20px 0;
-    width: 100%;
 }
 
 .logo { 
-    font-size: 26px; 
-    font-weight: 800;
+    font-size: 24px; 
+    font-weight: 800; 
+    display: block;
     margin: 0 auto;
 }
 
 .logo span { color: var(--primary); }
 
-/* Barre de recherche adaptée */
-.hero {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-#searchInput {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    background: var(--card);
-    border: 1px solid #334155;
-    color: white;
-    font-size: 16px; /* Empêche le zoom auto sur mobile */
-}
-
-/* Grille de produits en 2 colonnes */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 colonnes égales */
-    gap: 12px;
-    width: 100%;
-}
-
-/* Cartes des pièces */
-.card {
-    background: var(--card);
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.05);
-    display: flex;
-    flex-direction: column;
-}
-
-.card-img {
-    width: 100%;
-    height: 120px; /* Taille fixe pour l'uniformité */
-    object-fit: cover;
-}
-
-.card-info {
-    padding: 10px;
-    flex-grow: 1;
-}
-
-.card-info h3 {
-    font-size: 14px;
-    margin: 0 0 5px 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Coupe le texte trop long */
-}
-
-.card-price {
-    color: var(--primary);
-    font-weight: 700;
-    font-size: 14px;
-}
-
-/* Bouton flottant + */
-.fab {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--primary);
-    width: 56px;
-    height: 56px;
-    border-radius: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    z-index: 99;
-}
-
-/* Modals adaptées au mobile */
+/* Centrage des formulaires et Modals */
 .modal-content {
     background: var(--card);
-    margin: 15% auto;
-    padding: 20px;
-    width: 90%;
-    max-width: 400px;
+    padding: 25px;
     border-radius: 20px;
-    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+    text-align: center; /* Centre le texte à l'intérieur */
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+    background: #0f172a;
+    color: white;
 }
 
 .submit-btn {
     width: 100%;
     background: var(--primary);
     color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 15px;
+    border-radius: 12px;
     font-weight: 700;
-    margin-top: 10px;
+    border: none;
+    cursor: pointer;
 }
 
-input[type="file"] {
-    background: #0f172a;
+/* Grille centrée pour les annonces */
+.grid-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 15px;
     padding: 10px;
-    border: 1px dashed var(--primary);
-    border-radius: 10px;
-    margin: 10px 0;
+    text-align: left;
 }
