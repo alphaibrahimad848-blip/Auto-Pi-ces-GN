@@ -1,80 +1,30 @@
-:root {
-    --primary: #2563eb;
-    --dark: #0f172a;
-    --card: #1e293b;
-}
-
-body {
-    background-color: var(--dark);
-    color: white;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    margin: 0;
-    padding: 20px;
-}
-
-.logo { font-size: 24px; font-weight: 800; }
+:root { --primary: #2563eb; --dark: #0f172a; --card: #1e293b; }
+body { background: var(--dark); color: white; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 15px; }
+header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
+.logo { font-size: 22px; font-weight: 800; }
 .logo span { color: var(--primary); }
+.small-btn { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 10px; font-weight: 600; }
 
-.hero h1 { font-size: 2rem; margin-top: 40px; }
+#searchInput { width: 100%; padding: 15px; border-radius: 15px; background: var(--card); border: 1px solid #334155; color: white; margin: 20px 0; }
 
-.search-bar input {
-    width: 100%;
-    padding: 15px;
-    border-radius: 15px;
-    background: #1e293b;
-    border: 1px solid #334155;
-    color: white;
-    margin: 20px 0;
-}
-
-.card {
-    background: var(--card);
-    border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 20px;
-}
-
-.card-img { width: 100%; height: 200px; object-fit: cover; }
+.card { background: var(--card); border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+.card-img { width: 100%; height: 180px; object-fit: cover; }
 .card-info { padding: 15px; }
-.card-price { color: var(--primary); font-weight: 800; font-size: 1.2rem; }
+.card-price { color: var(--primary); font-weight: 800; font-size: 1.2rem; margin: 5px 0; }
 
-.fab {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: var(--primary);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-}
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; }
+.modal-content { background: var(--card); margin: 15% auto; padding: 25px; width: 85%; border-radius: 25px; }
+input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: none; background: #0f172a; color: white; box-sizing: border-box; }
 
-.modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85);
-    z-index: 1000;
-}
+.chat-container { height: 70vh; display: flex; flex-direction: column; }
+#messagesList { flex-grow: 1; overflow-y: auto; margin-bottom: 10px; padding: 10px; }
+.msg { margin: 5px 0; padding: 8px 12px; border-radius: 10px; max-width: 80%; font-size: 14px; }
+.msg.me { background: var(--primary); margin-left: auto; }
+.msg.them { background: #334155; }
+.chat-input { display: flex; gap: 5px; }
+#sendMsg { background: var(--primary); border: none; color: white; border-radius: 10px; padding: 0 15px; }
 
-.modal-content {
-    background: var(--card);
-    margin: 10% auto;
-    padding: 25px;
-    width: 85%;
-    border-radius: 25px;
-}
-
-input, select {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 10px;
-    border: none;
-    background: #0f172a;
-    color: white;
-}
+.fab { position: fixed; bottom: 25px; right: 25px; background: var(--primary); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+.submit-btn { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 700; margin-top: 10px; cursor: pointer;}
+.btn-vendu { background: #ef4444; width: 100%; border: none; color: white; padding: 10px; border-radius: 10px; margin-top: 5px; cursor: pointer;}
+.close-txt { background: none; border: none; color: #94a3b8; width: 100%; margin-top: 15px; text-decoration: underline; cursor: pointer;}
